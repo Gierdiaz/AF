@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-use App\Enums\TipoDocumentoFundoEnum;
 use App\Enums\TipoParticipanteEnum;
 use App\Interfaces\ParticipanteRepositoryInterface;
 use App\Models\Participante;
@@ -65,17 +64,29 @@ class ParticipanteRepository implements ParticipanteRepositoryInterface
             ->toArray();
     }
 
-    public function documentoAdministrador(string $id): array
+    // public function obterParticipantesEseusInvestimentos(string $participante_id): array
+    // {
+    //     return $this->model
+    //         ->where('id', $participante_id)
+    //         ->with('fundos.investimentos')
+    //         ->get()
+    //         ->toArray();
+    // }
+
+    public function obterParticipantesEseusInvestimentos(string $participante_id): array
     {
-        return $this->model
-            ->where('tipo_participante', TipoParticipanteEnum::ADMINISTRADOR)
-            ->whereHas('fundos.documentosFundo', function ($query) {
-                $query->where('tipo_documento', TipoDocumentoFundoEnum::LAMINA);
-            })
-            ->with(['fundos.documentosFundo' => function ($query) {
-                $query->where('tipo_documento', TipoDocumentoFundoEnum::LAMINA);
-            }])
-            ->find($id)
+        return $this->model 
+            ->join('fundo_participante', 'participantes.id', '=', 'fundo_participante.participante_id')
+            ->join('fundos', 'fundos.id', '=', 'fundo_participante.fundo_id')
+            ->leftJoin('investimentos', 'fundos.id', '=', 'investimentos.fundo_id')
+            ->select(
+                'participantes.nome as participantes',
+                'fundos.nome as fundos',
+                'investimentos.nome as investimentos',
+                'investimentos.valor'
+            )
+            ->where('participantes.id', $participante_id)
+            ->get()
             ->toArray();
     }
 }

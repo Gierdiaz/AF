@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('investimentos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('fundo_idd')->constrained('fundos')->onDelete('cascade');
+            $table->foreignId('fundo_id')->constrained('fundos')->onDelete('cascade');
             $table->string('nome');
+            $table->string('tipo_investimento');
             $table->decimal('valor', 15, 2);
             $table->timestamps();
         });

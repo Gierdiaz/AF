@@ -2,9 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\DocumentoFundo;
-use App\Models\Participante;
-use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -15,7 +12,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call([FundoTableSeeder::class, DocumentoFundoSeeder::class]);
+        $this->call([
+            FundoTableSeeder::class,
+            InvestimentoTableSeeder::class
+            
+        ]);
 
     }
 }

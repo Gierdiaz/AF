@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\FundoParticipanteCollection;
 use App\Http\Resources\FundoParticipanteResource;
 use App\Interfaces\FundoRepositoryInterface;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 

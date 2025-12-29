@@ -14,5 +14,5 @@ interface ParticipanteRepositoryInterface
 
     public function buscarParticipantePeloNome(?string $nome = null): array;
 
-    public function documentoAdministrador(string $id): array;
+    public function obterParticipantesEseusInvestimentos(string $participante_id): array;
 }

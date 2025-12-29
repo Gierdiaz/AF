@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\ParticipanteAdministradorResource;
 use App\Http\Resources\ParticipanteCollection;
 use App\Interfaces\ParticipanteRepositoryInterface;
+use App\Services\ArrayHelperService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -15,8 +15,19 @@ class ParticipanteController extends Controller
     public function listarParticipantes(Request $request)
     {
         $participantes = $this->repository->listarParticipantes();
+        dd($participantes);
         $resource = new ParticipanteCollection($participantes);
         return response()->json($resource->toArray($request), Response::HTTP_OK);
+    }
+
+    public function testarArraysHelpers(ArrayHelperService $helpers)
+    {
+        $participantes = $this->repository->listarParticipantes();
+ 
+        $resultado = $helpers->testarHelper($participantes);
+        dd($resultado);
+        return response()->json($resultado);
+
     }
 
     public function buscarParticipantesInvestidores()
@@ -41,9 +52,8 @@ class ParticipanteController extends Controller
         return response()->json($participantes);
     }
 
-    public function documentoAdministrador(string $id)
+    public function obterParticipantesEseusInvestimentos(string $participante_id)
     {
-        $participantes = $this->repository->documentoAdministrador($id);
-        return new ParticipanteAdministradorResource($participantes);
+        return response()->json($this->repository->obterParticipantesEseusInvestimentos($participante_id));
     }
 }

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOneThrough;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Fundo extends Model
 {
@@ -49,27 +49,17 @@ class Fundo extends Model
         return $this->hasMany(Investimento::class);
     }
 
-    /** One To Many - Fundo possui vários documentos oficiais */
-    public function documentosFundo(): HasMany
+    public function transacoes(): HasManyThrough
     {
-        return $this->hasMany(DocumentoFundo::class);
-    }
-
-    /** One To Many (Polymorphic) - Fundo pode ter vários Comentários */
-    public function comentarios()
-    {
-        return $this->morphMany(Comentario::class, 'commentable');
-    }
-
-    /** One To One (Polymorphic) - Fundo pode ter um Endereço */
-    public function endereco()
-    {
-        return $this->morphOne(Endereco::class, 'addressable');
-    }
-
-    /** Many To Many (Polymorphic) - Fundo pode ter várias Tags */
-    public function tags()
-    {
-        return $this->morphToMany(Tag::class, 'taggable');
+        return $this->hasManyThrough(
+            Transacao::class,     // modelo final
+            Investimento::class,  // modelo intermediário
+            'fundo_id',           // FK do Investimento apontando para Fundo
+            'investimento_id',    // FK da Transacao apontando para Investimento
+            'id',                 // PK do Fundo
+            'id'                  // PK do Investimento
+        );
     }
 }
+
+

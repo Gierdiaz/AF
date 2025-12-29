@@ -2,9 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\DocumentoFundo;
-use App\Models\Participante;
-use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -16,6 +13,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
+<<<<<<< HEAD
             FundoTableSeeder::class, 
             DocumentoFundoSeeder::class,
             UsuarioSeeder::class,
@@ -25,6 +23,11 @@ class DatabaseSeeder extends Seeder
             PedidoSeeder::class,
             PedidoItemSeeder::class,
             PagamentoSeeder::class
+=======
+            FundoTableSeeder::class,
+            InvestimentoTableSeeder::class
+            
+>>>>>>> 58e04faadf1075b86e9ab3b87b07feb3172628fe
         ]);
 
     }

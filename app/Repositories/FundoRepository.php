@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\DTOs\FundoDTO;
 use App\Enums\TipoFundoEnum;
 use App\Enums\TipoParticipanteEnum;
 use App\Interfaces\FundoRepositoryInterface;
@@ -17,6 +18,14 @@ class FundoRepository implements FundoRepositoryInterface
             ->select(['id', 'nome', 'tipo_fundo'])
             ->get()
             ->toArray();
+    }
+
+    public function obterFundoById(string $idFundo): array
+    {
+        return $this->model
+            ->where('id', $idFundo)
+            ?->first()
+            ->toArray() ?? [];
     }
 
     public function buscarFundosRendaFixa(): array
@@ -37,6 +46,22 @@ class FundoRepository implements FundoRepositoryInterface
                 $query->where('tipo_participante', TipoParticipanteEnum::CUSTODIANTE);
             }])
             ->paginate()
+            ->toArray();
+    }
+
+    public function criarFundo(FundoDTO $dto): array
+    {
+        return $this->model
+            ->create($dto->toArray())
+            ->toArray();
+    }
+
+    public function obterFundosInvestimentos(): array
+    {
+        return $this->model
+            ->leftJoin('investimentos', 'fundos.id', '=', 'investimentos.fundo_id')
+            ->select('fundos.nome as fundo', 'investimentos.nome as investimento', 'investimentos.valor')
+            ->get()
             ->toArray();
     }
 }

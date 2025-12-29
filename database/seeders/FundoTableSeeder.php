@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Fundo;
 use App\Models\Participante;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class FundoTableSeeder extends Seeder
